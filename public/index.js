@@ -30,6 +30,8 @@ var setPersistedCountry = function(){
   var savedCountry = JSON.parse(jsonString);
 
   if(!savedCountry) return;
+  var dropDown = document.getElementById("drop-down");
+  dropDown.setSelectedValue = savedCountry[0].name;
   createCountryDisplay(savedCountry);
 }
 
@@ -50,6 +52,7 @@ var populateList = function(countries){
   for (country of countries){
     var listItem = document.createElement("option");
     listItem.innerText = country.name;
+    listItem.value = country.name;
     dropDown.appendChild(listItem);
   }
 }
@@ -76,7 +79,7 @@ var createCountryDisplay = function(country){
   var capital = document.getElementById("capital");
   var flag = document.getElementById("flag");
   var map = document.getElementById("main-map");
-  listItem.innerText = country[0].name;
+  listItem.innerText = country[0].name
   population.innerText = "Population: " + country[0].population;
   capital.innerText = "Capital: " + country[0].capital;
   flag.setAttribute("src", country[0].flag);

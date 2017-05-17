@@ -1,6 +1,19 @@
+* {
+  font-family: Helvetica, Arial, Sans-Serif;
+}
+
+li {
+  list-style-type: none;
+}
+
 #main-map {
   width: 250px;
   height: 180px;
+}
+
+#country-name {
+  font-size: 25px;
+  font-weight: bold;
 }
 
 #flag {
