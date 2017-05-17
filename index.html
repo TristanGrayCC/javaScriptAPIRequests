@@ -2,22 +2,28 @@
 <html>
   <head>
     <title>Country App</title>
+    <link rel='stylesheet' type='text/css' href='main.css'>
     <script src='index.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="mapWrapper.js"></script>
   </head>
+
   <body>
     <h1>Countries</h1>
     <select id=drop-down></select>
-
+  </br>
     <ul id='country-list'>
       <li id ="country-name"></li>
       <ul id ="data-list">
         <li id ="capital"></li>
         <li id ="population"></li>
         <img id ="flag"></img>
+        <div id='main-map'></div>
       </ul>
     </ul>
 
     <ul id = "neighbours">
+      <li> Neighbouring States </li>
     </ul>
 
   </body>

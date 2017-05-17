@@ -23,7 +23,6 @@ var borderRequestComplete = function(){
   var country = JSON.parse(jsonString);
 
   populateBordersList(country);
-  console.log(country);
 }
 
 var setPersistedCountry = function(){
@@ -60,13 +59,11 @@ var populateBordersList = function(country){
     var listItem = document.createElement("li");
     var dataList = document.createElement("ul");
     var population = document.createElement("li");
-    var flag = document.createElement("img");
     listItem.innerText = country.name;
-    flag.setAttribute("src", country.flag);
-    flag.style.width = "200px";
+    listItem.style.backgroundImage = "url("+country.flag+")";
+    listItem.setAttribute("id", "listItem");
     population.innerText = "Population: " + country.population;
     dataList.appendChild(population);
-    dataList.appendChild(flag);
     listItem.appendChild(dataList);
     list.appendChild(listItem);
   }
@@ -78,11 +75,15 @@ var createCountryDisplay = function(country){
   var population = document.getElementById("population");
   var capital = document.getElementById("capital");
   var flag = document.getElementById("flag");
+  var map = document.getElementById("main-map");
   listItem.innerText = country[0].name;
   population.innerText = "Population: " + country[0].population;
   capital.innerText = "Capital: " + country[0].capital;
   flag.setAttribute("src", country[0].flag);
-  flag.style.width = "200px";
+
+  var center = {lat: country[0].latlng[0], lng: country[0].latlng[1]};
+  var mainMap = new MapWrapper(map, center, 4);
+  mainMap.addMarker(center);
 
   createNeighbours(country[0].borders);
  }

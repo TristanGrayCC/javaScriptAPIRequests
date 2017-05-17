@@ -1,0 +1,26 @@
+#main-map {
+  width: 250px;
+  height: 180px;
+}
+
+#flag {
+  width: 250px;
+}
+
+#country-list {
+  float: left;
+  width: 45%;
+  height: 500px;
+}
+
+#neighbours {
+  float: right;
+  width: 45%;
+  height: 500px;
+}
+
+#listItem {
+  background-size: 250px;
+  background-repeat: no-repeat;
+  width: 250px;
+}
