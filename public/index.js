@@ -16,6 +16,16 @@ var requestComplete = function(){
   populateList(countries);
 }
 
+var borderRequestComplete = function(){
+  if(this.status !== 200) return;
+
+  var jsonString = this.responseText;
+  var country = JSON.parse(jsonString);
+
+  populateBordersList(country);
+  console.log(country);
+}
+
 var setPersistedCountry = function(){
   var jsonString = localStorage.getItem('country');
   var savedCountry = JSON.parse(jsonString);
@@ -45,6 +55,22 @@ var populateList = function(countries){
   }
 }
 
+var populateBordersList = function(country){
+  var list = document.getElementById("neighbours");
+    var listItem = document.createElement("li");
+    var dataList = document.createElement("ul");
+    var population = document.createElement("li");
+    var flag = document.createElement("img");
+    listItem.innerText = country.name;
+    flag.setAttribute("src", country.flag);
+    flag.style.width = "200px";
+    population.innerText = "Population: " + country.population;
+    dataList.appendChild(population);
+    dataList.appendChild(flag);
+    listItem.appendChild(dataList);
+    list.appendChild(listItem);
+  }
+
 var createCountryDisplay = function(country){
   var list = document.getElementById("country-list");
   var listItem = document.getElementById("country-name");
@@ -57,6 +83,15 @@ var createCountryDisplay = function(country){
   capital.innerText = "Capital: " + country[0].capital;
   flag.setAttribute("src", country[0].flag);
   flag.style.width = "200px";
+
+  createNeighbours(country[0].borders);
+ }
+
+ var createNeighbours = function(borders){
+   for (border of borders){
+    var url = "https://restcountries.eu/rest/v2/alpha/" + border;
+    makeRequest(url, borderRequestComplete);
+  };
  }
 
 var makeRequest = function(url, callback){
@@ -71,6 +106,8 @@ var display = function(){
   var selected = document.getElementById("drop-down").value;
   var url = "https://restcountries.eu/rest/v2/name/" + selected;
   makeRequest(url, newRequestComplete);
+  var list = document.getElementById("neighbours");
+  list.innerHTML = "";
 }
 
 window.addEventListener('load', app);
