@@ -1,19 +1,9 @@
 var app = function(){
-  var button = document.getElementById("list-button");
-  button.addEventListener("click", buttonClick);
-  var button = document.getElementById("hide-button");
-  button.addEventListener("click", hideButtonClick);
-}
-
-var buttonClick = function(){
   var url = "https://restcountries.eu/rest/v2"
-  var list = document.getElementById("country-list");
   makeRequest(url, requestComplete);
-}
-
-var hideButtonClick = function(){
   var list = document.getElementById("country-list");
-  list.innerHTML = "";
+  var dropDown = document.getElementById("drop-down");
+  dropDown.addEventListener('change', display);
 }
 
 var requestComplete = function(){
@@ -25,23 +15,37 @@ var requestComplete = function(){
   populateList(countries);
 }
 
+var newRequestComplete = function(){
+  if(this.status !== 200) return;
+
+  var jsonString = this.responseText;
+  var country = JSON.parse(jsonString);
+
+  createCountryDisplay(country);
+}
+
 var populateList = function(countries){
-  var list = document.getElementById("country-list");
+  var dropDown = document.getElementById("drop-down");
   for (country of countries){
-    var listItem = document.createElement("li");
-    var dataList = document.createElement("ul");
-    var population = document.createElement("li");
-    var flag = document.createElement("img");
+    var listItem = document.createElement("option");
     listItem.innerText = country.name;
-    flag.setAttribute("src", country.flag);
-    flag.style.width = "200px";
-    population.innerText = "Population: " + country.population;
-    dataList.appendChild(population);
-    dataList.appendChild(flag);
-    listItem.appendChild(dataList);
-    list.appendChild(listItem);
+    dropDown.appendChild(listItem);
   }
 }
+
+var createCountryDisplay = function(country){
+  var list = document.getElementById("country-list");
+  var listItem = document.getElementById("country-name");
+  var dataList = document.getElementById("data-list");
+  var population = document.getElementById("population");
+  var capital = document.getElementById("capital");
+  var flag = document.getElementById("flag");
+  listItem.innerText = country[0].name;
+  population.innerText = "Population: " + country[0].population;
+  capital.innerText = "Capital: " + country[0].capital;
+  flag.setAttribute("src", country[0].flag);
+  flag.style.width = "200px";
+ }
 
 var makeRequest = function(url, callback){
   var request = new XMLHttpRequest();
@@ -49,6 +53,12 @@ var makeRequest = function(url, callback){
   request.open("GET", url);
   request.addEventListener("load", callback);
   request.send();
+}
+
+var display = function(){
+  var selected = document.getElementById("drop-down").value;
+  var url = "https://restcountries.eu/rest/v2/name/" + selected;
+  makeRequest(url, newRequestComplete);
 }
 
 window.addEventListener('load', app);
