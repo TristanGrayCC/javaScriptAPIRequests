@@ -4,6 +4,7 @@ var app = function(){
   var list = document.getElementById("country-list");
   var dropDown = document.getElementById("drop-down");
   dropDown.addEventListener('change', display);
+  setPersistedCountry();
 }
 
 var requestComplete = function(){
@@ -15,11 +16,22 @@ var requestComplete = function(){
   populateList(countries);
 }
 
+var setPersistedCountry = function(){
+  var jsonString = localStorage.getItem('country');
+  var savedCountry = JSON.parse(jsonString);
+
+  if(!savedCountry) return;
+  createCountryDisplay(savedCountry);
+}
+
 var newRequestComplete = function(){
   if(this.status !== 200) return;
 
   var jsonString = this.responseText;
   var country = JSON.parse(jsonString);
+
+  var jsonString = JSON.stringify(country);
+  localStorage.setItem('country', jsonString);
 
   createCountryDisplay(country);
 }
